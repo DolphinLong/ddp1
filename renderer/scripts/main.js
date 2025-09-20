@@ -18,6 +18,13 @@ class ModernLessonManager {
         this.setupEventListeners();
         this.setupMenuActions();
         await this.loadInitialData();
+        // Initialize elective alerts manager for dashboard panel
+        try {
+            this.alertManager = new ElectiveAlertManager();
+            await this.alertManager.loadElectiveAlerts();
+        } catch (e) {
+            // ignore if fails
+        }
         this.updateDashboardStats();
         this.showLoading(false);
     }
@@ -1572,6 +1579,19 @@ class ModernLessonManager {
         if (el) el.classList.add('hidden');
     }
 
+    // Dashboard alerts
+    async refreshElectiveAlerts() {
+        try {
+            if (this.alertManager && typeof this.alertManager.refreshAlerts === 'function') {
+                await this.alertManager.refreshAlerts();
+            } else {
+                this.showNotification('Uyarılar yenileniyor...', 'info');
+            }
+        } catch (e) {
+            this.showNotification('Uyarılar yenilenirken hata oluştu', 'error');
+        }
+    }
+
     // Classes - placeholders
     showAddClassModal() { this.showClassModal(null); }
     showBulkClassModal() { this.showNotification('Toplu sınıf oluşturma yakında.', 'info'); }
@@ -1593,8 +1613,42 @@ class ModernLessonManager {
     // Bulk import
     showBulkImportModal() { this.showNotification('Toplu öğretmen aktarımı yakında.', 'info'); }
 
+    // Lessons helpers
+    showAddLessonModal() { this.showLessonModal(null); }
+    showCurriculumImportModal() { this.showNotification('Müfredat içe aktarma yakında.', 'info'); }
+    showLessonAnalysis() { this.showNotification('Ders analizi yakında.', 'info'); }
+    switchChartView(view) { this.showNotification(`Grafik görünümü değiştirildi: ${view}`, 'info'); }
+
     // Elective tracker quick link
     openElectiveTracker() { this.navigateToSection('elective-tracker'); }
+
+    // Elective tracker stats refresh (used by electiveReports/electiveTracker facades)
+    async loadStatistics() {
+        try {
+            if (window.electronAPI?.electiveTracker) {
+                const stats = await window.electronAPI.electiveTracker.getStatistics();
+                const pctEl = document.getElementById('completion-percentage');
+                const progEl = document.getElementById('completion-progress');
+                const missEl = document.getElementById('missing-assignments');
+                const totalEl = document.getElementById('total-classes-tracker');
+                const avgEl = document.getElementById('avg-electives');
+                if (pctEl) pctEl.textContent = `${stats.completionPercentage}%`;
+                if (progEl) progEl.style.width = `${stats.completionPercentage}%`;
+                if (missEl) missEl.textContent = String(stats.totalMissingAssignments);
+                if (totalEl) totalEl.textContent = String(stats.totalClasses);
+                if (avgEl) avgEl.textContent = String(stats.averageElectivesPerClass);
+                return stats;
+            }
+        } catch (e) {
+            this.showNotification('İstatistikler yüklenirken hata oluştu', 'error');
+        }
+        return null;
+    }
+
+    async refreshData() {
+        await this.loadStatistics();
+        this.showNotification('Veriler yenilendi', 'success');
+    }
 
     // Clear filters across sections
     clearTeacherFilters() {
