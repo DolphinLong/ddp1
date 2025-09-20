@@ -1,0 +1,77 @@
+{
+  "name": "modern-lesson-manager",
+  "version": "1.0.0",
+  "description": "Modern Turkish Lesson Management System with MEB Curriculum Support",
+  "main": "dist/main.js",
+  "homepage": "./",
+  "scripts": {
+    "start": "electron .",
+    "dev": "concurrently \"npm run build:watch\" \"wait-on dist/main.js && electron .\"",
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "pack": "electron-builder",
+    "dist": "npm run build && electron-builder",
+    "postinstall": "electron-builder install-app-deps",
+    "test": "node --expose-gc ./node_modules/jest/bin/jest.js --config tests/jest.config.js --runInBand",
+    "test:watch": "jest --config tests/jest.config.js --watch",
+    "test:coverage": "jest --config tests/jest.config.js --coverage",
+    "test:backend": "jest --config tests/jest.config.js tests/backend",
+    "test:frontend": "jest --config tests/jest.config.js tests/frontend"
+  },
+  "keywords": [
+    "lesson",
+    "management",
+    "scheduling",
+    "turkish",
+    "meb",
+    "curriculum",
+    "electron"
+  ],
+  "author": "Modern Lesson Manager Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@electron/rebuild": "^4.0.1",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^20.0.0",
+    "@types/sqlite3": "^3.1.8",
+    "concurrently": "^8.0.0",
+    "electron": "^25.0.0",
+    "electron-builder": "^24.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "ts-jest": "^29.4.3",
+    "typescript": "^5.0.0",
+    "wait-on": "^7.0.0"
+  },
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "electron-store": "^8.1.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
+  },
+  "build": {
+    "appId": "com.modernlessonmanager.app",
+    "productName": "Modern Lesson Manager",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "renderer/**/*",
+      "node_modules/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/icon.png"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.icns"
+    }
+  }
+}
