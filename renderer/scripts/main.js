@@ -1967,6 +1967,64 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined') {
                 closeQuickAssignment: () => window.lessonManager?.closeQuickAssignment?.()
             };
         }
+
+        // Remove inline handlers by attaching equivalent listeners (no eval)
+        const parseArg = (s) => {
+            const t = s.trim();
+            if (t === '' ) return undefined;
+            if (t === 'null') return null;
+            if ((t.startsWith('"') && t.endsWith('"')) || (t.startsWith('\'') && t.endsWith('\''))) return t.slice(1,-1);
+            if (!isNaN(Number(t))) return Number(t);
+            return t; // as string token
+        };
+        const splitArgs = (str) => {
+            if (!str || !str.trim()) return [];
+            const out=[]; let cur=''; let inQ=null;
+            for (let i=0;i<str.length;i++){
+                const ch=str[i];
+                if ((ch==='"' || ch==='\'') ){
+                    if (inQ===ch){ inQ=null; cur+=ch; }
+                    else if (!inQ){ inQ=ch; cur+=ch; }
+                    else { cur+=ch; }
+                } else if (ch===',' && !inQ){ out.push(cur); cur=''; }
+                else cur+=ch;
+            }
+            if (cur!=='') out.push(cur);
+            return out.map(parseArg);
+        };
+        const bindInlineHandlers = (root) => {
+            const nodes = (root.querySelectorAll ? root.querySelectorAll('[onclick]') : []);
+            nodes.forEach(el => {
+                if (el.dataset.bound === '1') return;
+                const val = el.getAttribute('onclick');
+                const m = val && val.match(/^([a-zA-Z_$][\w$]*)\.([a-zA-Z_$][\w$]*)\((.*)\)\s*;?$/);
+                if (m){
+                    const objName = m[1];
+                    const fnName = m[2];
+                    const argsStr = m[3];
+                    const target = window[objName];
+                    if (target && typeof target[fnName] === 'function'){
+                        const args = splitArgs(argsStr);
+                        el.addEventListener('click', (e)=>{
+                            try { target[fnName](...args); } catch(err) { console.error('Handler error:', err); }
+                        });
+                        el.dataset.bound = '1';
+                        el.removeAttribute('onclick');
+                    }
+                }
+            });
+        };
+        bindInlineHandlers(document);
+        const mo = new MutationObserver((mutations)=>{
+            mutations.forEach(m=>{
+                m.addedNodes.forEach(node=>{
+                    if (node.nodeType===1){
+                        bindInlineHandlers(node);
+                    }
+                });
+            });
+        });
+        mo.observe(document.body, { childList: true, subtree: true });
     });
 }
 
