@@ -1,0 +1,2115 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+        font-src 'self' https://fonts.googleapis.com https://fonts.gstatic.com;
+        img-src 'self' data:;
+        connect-src 'self';
+    ">
+    <title>Modern Ders Yönetim Sistemi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts/ux-enhancements.js"></script>
+    <script src="scripts/accessibility-enhancements.js"></script>
+    <script src="scripts/error-handler.js"></script>
+    <script src="scripts/user-feedback.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-left">
+                <div class="logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Modern Ders Yönetim Sistemi</span>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="backup-btn">
+                        <i class="fas fa-download"></i>
+                        Yedekle
+                    </button>
+                    <button class="btn btn-secondary" id="restore-btn">
+                        <i class="fas fa-upload"></i>
+                        Geri Yükle
+                    </button>
+                </div>
+                <div class="user-info">
+                    <span>Hoşgeldiniz</span>
+                    <div class="status-indicator online"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div class="nav-items">
+                <!-- Navigation Menu -->
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item active" data-section="dashboard">
+                        <i class="fas fa-home"></i>
+                        <span>Ana Sayfa</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="teachers">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span>Öğretmenler</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="classes">
+                        <i class="fas fa-school"></i>
+                        <span>Sınıflar</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="lessons">
+                        <i class="fas fa-book"></i>
+                        <span>Dersler</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="schedule">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Program</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="elective-tracker">
+                        <i class="fas fa-tasks"></i>
+                        <span>Seçmeli Ders Takibi</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="reports">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Raporlar</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Ayarlar</span>
+                    </a>
+                </nav>
+
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content" id="main-content">
+            <!-- Dashboard Section -->
+            <section id="dashboard-section" class="content-section active">
+                <div class="page-header">
+                    <h1>Ana Sayfa</h1>
+                    <p>Ders yönetim sistemi özeti ve hızlı işlemler</p>
+                </div>
+                
+                <div class="dashboard-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon teachers">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="teachers-count">0</h3>
+                            <p>Öğretmen</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon classes">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="classes-count">0</h3>
+                            <p>Sınıf</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon lessons">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="lessons-count">0</h3>
+                            <p>Ders</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon schedule">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 id="schedule-count">0</h3>
+                            <p>Program Girdisi</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Elective Assignment Alerts Panel -->
+                <div class="elective-alerts-panel">
+                    <div class="alert-header">
+                        <div class="alert-title">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h3>Seçmeli Ders Uyarıları</h3>
+                        </div>
+                        <div class="alert-summary">
+                            <span class="alert-count" id="alert-count">0</span>
+                            <span class="alert-label">Aktif Uyarı</span>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-content" id="alert-content">
+                        <div class="alert-list" id="elective-alerts">
+                            <!-- Dinamik uyarı listesi buraya gelecek -->
+                            <div class="no-alerts" id="no-alerts">
+                                <i class="fas fa-check-circle"></i>
+                                <p>Tüm seçmeli ders atamaları tamamlanmış!</p>
+                            </div>
+                        </div>
+                        
+                        <div class="alert-actions">
+                            <button class="btn btn-secondary" onclick="lessonManager.refreshElectiveAlerts()">
+                                <i class="fas fa-sync"></i>
+                                Yenile
+                            </button>
+                            <button class="btn btn-primary" onclick="lessonManager.openElectiveTracker()">
+                                <i class="fas fa-list-alt"></i>
+                                Detaylı Görünüm
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dashboard-actions">
+                    <div class="action-card" data-action="add-teacher">
+                        <i class="fas fa-user-plus"></i>
+                        <h3>Öğretmen Ekle</h3>
+                        <p>Yeni öğretmen kaydı oluştur</p>
+                    </div>
+                    <div class="action-card" data-action="add-class">
+                        <i class="fas fa-plus-circle"></i>
+                        <h3>Sınıf Ekle</h3>
+                        <p>Yeni sınıf tanımla</p>
+                    </div>
+                    <div class="action-card" data-action="generate-schedule">
+                        <i class="fas fa-magic"></i>
+                        <h3>Program Oluştur</h3>
+                        <p>Otomatik ders programı oluştur</p>
+                    </div>
+                    <div class="action-card" data-action="view-reports">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Rapor Görüntüle</h3>
+                        <p>Detaylı raporları incele</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Teachers Section -->
+            <section id="teachers-section" class="content-section">
+                <div class="page-header">
+                    <h1>Öğretmen Yönetimi</h1>
+                    <p>Öğretmen kayıtları ve ders atamalarının kapsamlı yönetimi</p>
+                </div>
+                
+                <!-- Teachers Feature Cards -->
+                <div class="teachers-feature-grid">
+                    <div class="feature-card" data-feature="add-teacher">
+                        <div class="feature-icon add-teacher">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Yeni Öğretmen Ekle</h3>
+                            <p>Sisteme yeni öğretmen kaydı oluşturun</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Hızlı kayıt formu</li>
+                                <li><i class="fas fa-check"></i> Branş ataması</li>
+                                <li><i class="fas fa-check"></i> Otomatik doğrulama</li>
+                            </ul>
+                        </div>
+                        <div class="feature-action">
+                            <button class="btn btn-primary" onclick="lessonManager.showTeacherModal()">
+                                <i class="fas fa-plus"></i>
+                                Öğretmen Ekle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" data-feature="bulk-import">
+                        <div class="feature-icon bulk-import">
+                            <i class="fas fa-file-import"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Toplu Öğretmen Aktarımı</h3>
+                            <p>Excel/CSV dosyalarından toplu öğretmen kaydı</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Excel/CSV desteği</li>
+                                <li><i class="fas fa-check"></i> Veri doğrulama</li>
+                                <li><i class="fas fa-check"></i> Hata raporlama</li>
+                            </ul>
+                        </div>
+                        <div class="feature-action">
+                            <button class="btn btn-secondary" onclick="lessonManager.showBulkImportModal()">
+                                <i class="fas fa-upload"></i>
+                                Toplu Aktar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" data-feature="workload-analysis">
+                        <div class="feature-icon workload-analysis">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Yüklenme Analizi</h3>
+                            <p>Öğretmen ders yükü dağılımı ve optimizasyonu</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Ders saati analizi</li>
+                                <li><i class="fas fa-check"></i> İş yükü dengeleme</li>
+                                <li><i class="fas fa-check"></i> Grafik raporlar</li>
+                            </ul>
+                        </div>
+                        <div class="feature-action">
+                            <button class="btn btn-info" onclick="lessonManager.showWorkloadAnalysis()">
+                                <i class="fas fa-analytics"></i>
+                                Analiz Et
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Teachers Statistics Panel -->
+                <div class="teachers-stats-section">
+                    <div class="section-header">
+                        <h2>Öğretmen İstatistikleri</h2>
+                        <div class="stats-actions">
+                            <button class="btn btn-secondary" onclick="lessonManager.updateTeacherStats()">
+                                <i class="fas fa-sync"></i>
+                                Yenile
+                            </button>
+                            <button class="btn btn-outline" onclick="lessonManager.exportTeacherReport()">
+                                <i class="fas fa-file-export"></i>
+                                Rapor Al
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="teachers-stats-grid">
+                        <div class="stats-card">
+                            <div class="stats-icon total">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stats-content">
+                                <span class="stats-value" id="total-teachers">0</span>
+                                <span class="stats-label">Toplam Öğretmen</span>
+                                <div class="stats-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span id="teachers-change">+0</span> Bu ay
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-card">
+                            <div class="stats-icon active">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <div class="stats-content">
+                                <span class="stats-value" id="active-teachers">0</span>
+                                <span class="stats-label">Aktif Öğretmen</span>
+                                <div class="stats-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="active-progress" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-card">
+                            <div class="stats-icon branches">
+                                <i class="fas fa-sitemap"></i>
+                            </div>
+                            <div class="stats-content">
+                                <span class="stats-value" id="total-branches">0</span>
+                                <span class="stats-label">Branş Sayısı</span>
+                            </div>
+                        </div>
+
+                        <div class="stats-card">
+                            <div class="stats-icon workload">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stats-content">
+                                <span class="stats-value" id="avg-workload">0</span>
+                                <span class="stats-label">Ortalama Ders Saati</span>
+                                <div class="stats-subtext">Haftalık</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Teachers Management Section -->
+                <div class="teachers-management-section">
+                    <div class="management-controls">
+                        <div class="search-and-filter">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="teacher-search" placeholder="Öğretmen ara... (isim, branş, telefon)">
+                            </div>
+                            <div class="advanced-filters">
+                                <select id="branch-filter">
+                                    <option value="">Tüm Branşlar</option>
+                                </select>
+                                <select id="workload-filter">
+                                    <option value="">Tüm Yüklemeler</option>
+                                    <option value="low">Düşük Yük (0-15 saat)</option>
+                                    <option value="medium">Orta Yük (16-25 saat)</option>
+                                    <option value="high">Yüksek Yük (26+ saat)</option>
+                                </select>
+                                <select id="status-filter">
+                                    <option value="">Tüm Durumlar</option>
+                                    <option value="active">Aktif</option>
+                                    <option value="inactive">Pasif</option>
+                                </select>
+                                <button class="btn btn-outline" onclick="lessonManager.clearTeacherFilters()">
+                                    <i class="fas fa-times"></i>
+                                    Filtreleri Temizle
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="view-controls">
+                            <div class="view-selector">
+                                <button class="btn btn-outline active" data-view="table">
+                                    <i class="fas fa-table"></i>
+                                    Tablo
+                                </button>
+                                <button class="btn btn-outline" data-view="cards">
+                                    <i class="fas fa-th"></i>
+                                    Kartlar
+                                </button>
+                            </div>
+                            <div class="sort-controls">
+                                <select id="sort-by">
+                                    <option value="name">İsim</option>
+                                    <option value="branch">Branş</option>
+                                    <option value="workload">Ders Saati</option>
+                                    <option value="created_date">Kayıt Tarihi</option>
+                                </select>
+                                <button class="btn btn-outline" id="sort-direction" data-direction="asc">
+                                    <i class="fas fa-sort-amount-up"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="teachers-display-section">
+                        <!-- Table View -->
+                        <div id="teachers-table-view" class="data-display-container active">
+                            <div class="enhanced-table-container">
+                                <table class="enhanced-table" id="teachers-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="sortable" data-column="name">
+                                                <span>Ad Soyad</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th class="sortable" data-column="branch">
+                                                <span>Branş</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th class="sortable" data-column="phone">
+                                                <span>Telefon</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th class="sortable" data-column="email">
+                                                <span>E-posta</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th class="sortable" data-column="workload">
+                                                <span>Ders Saati</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th>Durum</th>
+                                            <th>İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="teachers-tbody">
+                                        <!-- Teachers will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Cards View -->
+                        <div id="teachers-cards-view" class="data-display-container">
+                            <div class="teachers-cards-grid" id="teachers-cards-grid">
+                                <!-- Teacher cards will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Teachers Quick Actions Panel -->
+                <div class="teachers-quick-actions">
+                    <h3>Hızlı İşlemler</h3>
+                    <div class="quick-actions-grid">
+                        <button class="quick-action-btn" onclick="lessonManager.generateWorkloadReport()">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Yüklenme Raporu</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="lessonManager.exportTeacherList()">
+                            <i class="fas fa-file-excel"></i>
+                            <span>Excel'e Aktar</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="lessonManager.printTeacherList()">
+                            <i class="fas fa-print"></i>
+                            <span>Liste Yazdır</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="lessonManager.sendBulkNotification()">
+                            <i class="fas fa-bell"></i>
+                            <span>Toplu Bildirim</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Classes Section -->
+            <section id="classes-section" class="content-section">
+                <div class="page-header">
+                    <h1>Sınıf Yönetimi</h1>
+                    <p>Sınıf organizasyonu, rehber öğretmen atamaları ve ders programı takibinin kapsamlı yönetimi</p>
+                </div>
+                
+                <!-- Classes Feature Cards -->
+                <div class="classes-feature-grid">
+                    <div class="feature-card" data-feature="add-class">
+                        <div class="feature-icon add-class">
+                            <i class="fas fa-plus-circle"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Yeni Sınıf Oluştur</h3>
+                            <p>Sisteme yeni sınıf kaydı ekleyin ve düzenleyin</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Hızlı sınıf oluşturma</li>
+                                <li><i class="fas fa-check"></i> Okul türü seçimi</li>
+                                <li><i class="fas fa-check"></i> Otomatik şube ataması</li>
+                            </ul>
+                        </div>
+                        <div class="feature-action">
+                            <button class="btn btn-primary" onclick="classManager.showAddClassModal()">
+                                <i class="fas fa-plus"></i>
+                                Sınıf Ekle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" data-feature="bulk-class-import">
+                        <div class="feature-icon bulk-class-import">
+                            <i class="fas fa-layer-group"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Toplu Sınıf Oluşturma</h3>
+                            <p>Bir seferde birden fazla sınıf ve şube oluşturun</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Şube sayısı belirleme</li>
+                                <li><i class="fas fa-check"></i> Seviye bazında oluşturma</li>
+                                <li><i class="fas fa-check"></i> Otomatik isimlendirme</li>
+                            </ul>
+                        </div>
+                        <div class="feature-action">
+                            <button class="btn btn-secondary" onclick="classManager.showBulkClassModal()">
+                                <i class="fas fa-layer-plus"></i>
+                                Toplu Oluştur
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" data-feature="counselor-management">
+                        <div class="feature-icon counselor-management">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Rehber Öğretmen Yönetimi</h3>
+                            <p>Sınıflara rehber öğretmen atama ve takip sistemi</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Otomatik atama sistemi</li>
+                                <li><i class="fas fa-check"></i> Yük dengeleme</li>
+                                <li><i class="fas fa-check"></i> Atama raporları</li>
+                            </ul>
+                        </div>
+                        <div class="feature-action">
+                            <button class="btn btn-info" onclick="classManager.showCounselorManagement()">
+                                <i class="fas fa-user-cog"></i>
+                                Yönet
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Classes Statistics Panel -->
+                <div class="classes-stats-section">
+                    <div class="section-header">
+                        <h2>Sınıf İstatistikleri</h2>
+                        <div class="stats-actions">
+                            <button class="btn btn-secondary" onclick="classManager.refreshStats()">
+                                <i class="fas fa-sync"></i>
+                                Yenile
+                            </button>
+                            <button class="btn btn-outline" onclick="classManager.exportClassReport()">
+                                <i class="fas fa-file-export"></i>
+                                Rapor Al
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="classes-stats-grid">
+                        <div class="stats-card">
+                            <div class="stats-icon total">
+                                <i class="fas fa-school"></i>
+                            </div>
+                            <div class="stats-content">
+                                <span class="stats-value" id="total-classes">0</span>
+                                <span class="stats-label">Toplam Sınıf</span>
+                                <div class="stats-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span id="classes-change">+0</span> Bu dönem
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-card">
+                            <div class="stats-icon counselor-assigned">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <div class="stats-content">
+                                <span class="stats-value" id="counselor-assigned">0</span>
+                                <span class="stats-label">Rehber Öğretmen Atanmış</span>
+                                <div class="stats-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="counselor-progress" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-card">
+                            <div class="stats-icon grade-levels">
+                                <i class="fas fa-graduation-cap"></i>
+                            </div>
+                            <div class="stats-content">
+                                <span class="stats-value" id="grade-levels">0</span>
+                                <span class="stats-label">Seviye Sayısı</span>
+                            </div>
+                        </div>
+
+                        <div class="stats-card">
+                            <div class="stats-icon avg-class-hours">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stats-content">
+                                <span class="stats-value" id="avg-class-hours">0</span>
+                                <span class="stats-label">Ortalama Ders Saati</span>
+                                <div class="stats-subtext">Sınıf başına</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grade Level Overview -->
+                <div class="grade-overview-section">
+                    <div class="section-header">
+                        <h2>Seviye Bazında Genel Bakış</h2>
+                        <div class="overview-actions">
+                            <button class="btn btn-outline" onclick="classManager.switchGradeView('summary')">
+                                <i class="fas fa-chart-bar"></i>
+                                Özet
+                            </button>
+                            <button class="btn btn-outline" onclick="classManager.switchGradeView('detailed')">
+                                <i class="fas fa-list-alt"></i>
+                                Detaylı
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grade-overview-grid" id="grade-overview-grid">
+                        <!-- Grade level cards will be populated here -->
+                        <div class="grade-overview-placeholder">
+                            <i class="fas fa-graduation-cap"></i>
+                            <h3>Seviye İstatistikleri</h3>
+                            <p>Sınıf verileri yüklenince burada görüntülenecek</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Classes Management Section -->
+                <div class="classes-management-section">
+                    <div class="management-controls">
+                        <div class="search-and-filter">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="class-search" placeholder="Sınıf ara... (seviye, şube, rehber öğretmen)">
+                            </div>
+                            <div class="advanced-filters">
+                                <select id="grade-level-filter">
+                                    <option value="">Tüm Seviyeler</option>
+                                    <option value="5">5. Sınıf</option>
+                                    <option value="6">6. Sınıf</option>
+                                    <option value="7">7. Sınıf</option>
+                                    <option value="8">8. Sınıf</option>
+                                    <option value="9">9. Sınıf</option>
+                                    <option value="10">10. Sınıf</option>
+                                    <option value="11">11. Sınıf</option>
+                                    <option value="12">12. Sınıf</option>
+                                </select>
+                                <select id="school-type-filter">
+                                    <option value="">Tüm Okul Türleri</option>
+                                    <option value="İlkokul">İlkokul</option>
+                                    <option value="Ortaokul">Ortaokul</option>
+                                    <option value="Lise">Lise</option>
+                                </select>
+                                <select id="counselor-status-filter">
+                                    <option value="">Tüm Durumlar</option>
+                                    <option value="assigned">Rehber Öğretmen Atanmış</option>
+                                    <option value="unassigned">Rehber Öğretmen Atanmamış</option>
+                                </select>
+                                <button class="btn btn-outline" onclick="classManager.clearFilters()">
+                                    <i class="fas fa-times"></i>
+                                    Filtreleri Temizle
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="view-controls">
+                            <div class="view-selector">
+                                <button class="btn btn-outline active" data-view="table">
+                                    <i class="fas fa-table"></i>
+                                    Tablo
+                                </button>
+                                <button class="btn btn-outline" data-view="cards">
+                                    <i class="fas fa-th-large"></i>
+                                    Kartlar
+                                </button>
+                                <button class="btn btn-outline" data-view="grid">
+                                    <i class="fas fa-th"></i>
+                                    Izgara
+                                </button>
+                            </div>
+                            <div class="sort-controls">
+                                <select id="sort-by">
+                                    <option value="grade">Sınıf Seviyesi</option>
+                                    <option value="section">Şube</option>
+                                    <option value="counselor">Rehber Öğretmen</option>
+                                    <option value="hours">Ders Saati</option>
+                                </select>
+                                <button class="btn btn-outline" id="sort-direction" data-direction="asc">
+                                    <i class="fas fa-sort-amount-up"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="classes-display-section">
+                        <!-- Table View -->
+                        <div id="classes-table-view" class="data-display-container active">
+                            <div class="enhanced-table-container">
+                                <table class="enhanced-table" id="classes-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="sortable" data-column="grade">
+                                                <span>Sınıf</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th class="sortable" data-column="section">
+                                                <span>Şube</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th class="sortable" data-column="school_type">
+                                                <span>Okul Türü</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th class="sortable" data-column="counselor">
+                                                <span>Rehber Öğretmen</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th class="sortable" data-column="hours">
+                                                <span>Ders Saati</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th class="sortable" data-column="elective_status">
+                                                <span>Seçmeli Ders Durumu</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th>Durum</th>
+                                            <th>İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="classes-tbody">
+                                        <!-- Classes will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Cards View -->
+                        <div id="classes-cards-view" class="data-display-container">
+                            <div class="classes-cards-grid" id="classes-cards-grid">
+                                <!-- Class cards will be populated here -->
+                            </div>
+                        </div>
+
+                        <!-- Grid View -->
+                        <div id="classes-grid-view" class="data-display-container">
+                            <div class="classes-grid-container" id="classes-grid-container">
+                                <!-- Class grid items will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Classes Quick Actions Panel -->
+                <div class="classes-quick-actions">
+                    <h3>Hızlı İşlemler</h3>
+                    <div class="quick-actions-grid">
+                        <button class="quick-action-btn" onclick="classManager.generateClassReport()">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Sınıf Raporu</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="classManager.exportClassList()">
+                            <i class="fas fa-file-excel"></i>
+                            <span>Excel'e Aktar</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="classManager.assignAllCounselors()">
+                            <i class="fas fa-user-plus"></i>
+                            <span>Toplu Rehber Atama</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="classManager.validateClassStructure()">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Yapı Kontrolü</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Lessons Section -->
+            <section id="lessons-section" class="content-section">
+                <div class="page-header">
+                    <h1>Ders Müfredatı Yönetimi</h1>
+                    <p>Ders tanımları, haftalık saatler ve müfredat planlamalarının kapsamlı yönetimi</p>
+                </div>
+                
+                <!-- Lessons Feature Cards -->
+                <div class="lessons-feature-grid">
+                    <div class="feature-card" data-feature="add-lesson">
+                        <div class="feature-icon add-lesson">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Yeni Ders Ekle</h3>
+                            <p>Müfredata yeni ders tanımı oluşturun</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Detaylı ders bilgileri</li>
+                                <li><i class="fas fa-check"></i> Haftalık saat ataması</li>
+                                <li><i class="fas fa-check"></i> Sınıf seviyesi belirleme</li>
+                            </ul>
+                        </div>
+                        <div class="feature-action">
+                            <button class="btn btn-primary" onclick="lessonManager.showAddLessonModal()">
+                                <i class="fas fa-plus"></i>
+                                Ders Ekle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" data-feature="curriculum-import">
+                        <div class="feature-icon curriculum-import">
+                            <i class="fas fa-file-upload"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Müfredat İçe Aktarma</h3>
+                            <p>MEB standart müfredatını veya özel müfredatı yükleyin</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> MEB uyumlu formatlar</li>
+                                <li><i class="fas fa-check"></i> Toplu ders yükleme</li>
+                                <li><i class="fas fa-check"></i> Otomatik kategorizasyon</li>
+                            </ul>
+                        </div>
+                        <div class="feature-action">
+                            <button class="btn btn-secondary" onclick="lessonManager.showCurriculumImportModal()">
+                                <i class="fas fa-upload"></i>
+                                Müfredat Yükle
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card" data-feature="lesson-analysis">
+                        <div class="feature-icon lesson-analysis">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h3>Ders Dağılım Analizi</h3>
+                            <p>Haftalık ders dağılımı ve müfredat analizi</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Saat dağılım grafikleri</li>
+                                <li><i class="fas fa-check"></i> Alan bazında analiz</li>
+                                <li><i class="fas fa-check"></i> MEB uygunluk kontrolü</li>
+                            </ul>
+                        </div>
+                        <div class="feature-action">
+                            <button class="btn btn-info" onclick="lessonManager.showLessonAnalysis()">
+                                <i class="fas fa-analytics"></i>
+                                Analiz Yap
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lessons Statistics Panel -->
+                <div class="lessons-stats-section">
+                    <div class="section-header">
+                        <h2>Müfredat İstatistikleri</h2>
+                        <div class="stats-actions">
+                            <button class="btn btn-secondary" onclick="lessonManager.refreshStats()">
+                                <i class="fas fa-sync"></i>
+                                Yenile
+                            </button>
+                            <button class="btn btn-outline" onclick="lessonManager.exportCurriculumReport()">
+                                <i class="fas fa-file-export"></i>
+                                Rapor Al
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="lessons-stats-grid">
+                        <div class="stats-card">
+                            <div class="stats-icon total">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="stats-content">
+                                <span class="stats-value" id="total-lessons">0</span>
+                                <span class="stats-label">Toplam Ders</span>
+                                <div class="stats-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span id="lessons-change">+0</span> Bu dönem
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-card">
+                            <div class="stats-icon mandatory">
+                                <i class="fas fa-exclamation-circle"></i>
+                            </div>
+                            <div class="stats-content">
+                                <span class="stats-value" id="mandatory-lessons">0</span>
+                                <span class="stats-label">Zorunlu Dersler</span>
+                                <div class="stats-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="mandatory-progress" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="stats-card">
+                            <div class="stats-icon elective">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="stats-content">
+                                <span class="stats-value" id="elective-lessons">0</span>
+                                <span class="stats-label">Seçmeli Dersler</span>
+                            </div>
+                        </div>
+
+                        <div class="stats-card">
+                            <div class="stats-icon total-hours">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stats-content">
+                                <span class="stats-value" id="total-weekly-hours">0</span>
+                                <span class="stats-label">Toplam Haftalık Saat</span>
+                                <div class="stats-subtext">Tüm sınıflar</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Curriculum Overview Charts -->
+                <div class="curriculum-overview-section">
+                    <div class="section-header">
+                        <h2>Müfredat Genel Bakışı</h2>
+                        <div class="overview-actions">
+                            <button class="btn btn-outline" onclick="lessonManager.switchChartView('distribution')">
+                                <i class="fas fa-chart-pie"></i>
+                                Dağılım
+                            </button>
+                            <button class="btn btn-outline" onclick="lessonManager.switchChartView('comparison')">
+                                <i class="fas fa-chart-bar"></i>
+                                Karşılaştırma
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="curriculum-charts-grid">
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Ders Alanı Dağılımı</h3>
+                                <div class="chart-legend" id="subject-area-legend">
+                                    <!-- Legend items will be populated -->
+                                </div>
+                            </div>
+                            <div class="chart-content" id="subject-area-chart">
+                                <!-- Chart will be rendered here -->
+                                <div class="chart-placeholder">
+                                    <i class="fas fa-chart-pie"></i>
+                                    <span>Grafik yükleniyor...</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chart-card">
+                            <div class="chart-header">
+                                <h3>Haftalık Saat Dağılımı</h3>
+                                <select id="grade-level-selector">
+                                    <option value="all">Tüm Sınıflar</option>
+                                    <option value="9">9. Sınıf</option>
+                                    <option value="10">10. Sınıf</option>
+                                    <option value="11">11. Sınıf</option>
+                                    <option value="12">12. Sınıf</option>
+                                </select>
+                            </div>
+                            <div class="chart-content" id="weekly-hours-chart">
+                                <!-- Chart will be rendered here -->
+                                <div class="chart-placeholder">
+                                    <i class="fas fa-chart-bar"></i>
+                                    <span>Grafik yükleniyor...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lessons Management Section -->
+                <div class="lessons-management-section">
+                    <div class="management-controls">
+                        <div class="search-and-filter">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="lesson-search" placeholder="Ders ara... (ad, alan, açıklama)">
+                            </div>
+                            <div class="advanced-filters">
+                                <select id="subject-area-filter">
+                                    <option value="">Tüm Alanlar</option>
+                                    <option value="turkish">Türkçe ve Edebiyat</option>
+                                    <option value="math">Matematik</option>
+                                    <option value="science">Fen Bilimleri</option>
+                                    <option value="social">Sosyal Bilimler</option>
+                                    <option value="foreign">Yabancı Dil</option>
+                                    <option value="arts">Sanat</option>
+                                    <option value="sports">Beden Eğitimi</option>
+                                    <option value="vocational">Meslek Dersleri</option>
+                                </select>
+                                <select id="lesson-type-filter">
+                                    <option value="">Tüm Türler</option>
+                                    <option value="1">Zorunlu</option>
+                                    <option value="0">Seçmeli</option>
+                                </select>
+                                <select id="grade-filter">
+                                    <option value="">Tüm Sınıflar</option>
+                                    <option value="9">9. Sınıf</option>
+                                    <option value="10">10. Sınıf</option>
+                                    <option value="11">11. Sınıf</option>
+                                    <option value="12">12. Sınıf</option>
+                                </select>
+                                <button class="btn btn-outline" onclick="lessonManager.clearFilters()">
+                                    <i class="fas fa-times"></i>
+                                    Filtreleri Temizle
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="view-controls">
+                            <div class="view-selector">
+                                <button class="btn btn-outline active" data-view="table">
+                                    <i class="fas fa-table"></i>
+                                    Tablo
+                                </button>
+                                <button class="btn btn-outline" data-view="cards">
+                                    <i class="fas fa-th-large"></i>
+                                    Kartlar
+                                </button>
+                                <button class="btn btn-outline" data-view="grid">
+                                    <i class="fas fa-th"></i>
+                                    Izgara
+                                </button>
+                            </div>
+                            <div class="sort-controls">
+                                <select id="sort-by">
+                                    <option value="name">Ders Adı</option>
+                                    <option value="area">Ders Alanı</option>
+                                    <option value="hours">Haftalık Saat</option>
+                                    <option value="type">Ders Türü</option>
+                                    <option value="grade">Sınıf Seviyesi</option>
+                                </select>
+                                <button class="btn btn-outline" id="sort-direction" data-direction="asc">
+                                    <i class="fas fa-sort-amount-up"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lessons-display-section">
+                        <!-- Table View -->
+                        <div id="lessons-table-view" class="data-display-container active">
+                            <div class="enhanced-table-container">
+                                <table class="enhanced-table" id="lessons-table">
+                                    <thead>
+                                        <tr>
+                                            <th class="sortable" data-column="name">
+                                                <span>Ders Adı</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th class="sortable" data-column="area">
+                                                <span>Ders Alanı</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th class="sortable" data-column="grade">
+                                                <span>Sınıf Seviyesi</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th class="sortable" data-column="hours">
+                                                <span>Haftalık Saat</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th class="sortable" data-column="type">
+                                                <span>Tür</span>
+                                                <i class="fas fa-sort"></i>
+                                            </th>
+                                            <th>Durum</th>
+                                            <th>İşlemler</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="lessons-tbody">
+                                        <!-- Lessons will be populated here -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Cards View -->
+                        <div id="lessons-cards-view" class="data-display-container">
+                            <div class="lessons-cards-grid" id="lessons-cards-grid">
+                                <!-- Lesson cards will be populated here -->
+                            </div>
+                        </div>
+
+                        <!-- Grid View -->
+                        <div id="lessons-grid-view" class="data-display-container">
+                            <div class="lessons-grid-container" id="lessons-grid-container">
+                                <!-- Lesson grid items will be populated here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lessons Quick Actions Panel -->
+                <div class="lessons-quick-actions">
+                    <h3>Hızlı İşlemler</h3>
+                    <div class="quick-actions-grid">
+                        <button class="quick-action-btn" onclick="lessonManager.generateCurriculumReport()">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Müfredat Raporu</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="lessonManager.exportLessonList()">
+                            <i class="fas fa-file-excel"></i>
+                            <span>Excel'e Aktar</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="lessonManager.validateCurriculum()">
+                            <i class="fas fa-check-circle"></i>
+                            <span>MEB Uygunluk Kontrolü</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="lessonManager.duplicateFromPrevious()">
+                            <i class="fas fa-copy"></i>
+                            <span>Önceki Dönemden Kopyala</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Schedule Section -->
+            <section id="schedule-section" class="content-section">
+                <div class="page-header">
+                    <h1>Ders Programı</h1>
+                    <p>Otomatik veya manuel program oluşturma ve yönetimi</p>
+                </div>
+                
+                <!-- Schedule Options Cards -->
+                <div class="schedule-options-grid">
+                    <div class="schedule-option-card" data-option="auto-generate">
+                        <div class="option-icon auto-generate">
+                            <i class="fas fa-magic"></i>
+                        </div>
+                        <div class="option-content">
+                            <h3>Otomatik Program Oluşturma</h3>
+                            <p>AI destekli algoritma ile akıllı program oluşturma</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Çakışma tespiti</li>
+                                <li><i class="fas fa-check"></i> Öğretmen uygunluk kontrolü</li>
+                                <li><i class="fas fa-check"></i> Optimal dağılım</li>
+                            </ul>
+                        </div>
+                        <div class="option-action">
+                            <button class="btn btn-success" onclick="lessonManager.showAutoGenerateModal()">
+                                <i class="fas fa-rocket"></i>
+                                Otomatik Oluştur
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="schedule-option-card" data-option="manual-create">
+                        <div class="option-icon manual-create">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <div class="option-content">
+                            <h3>Manuel Program Oluşturma</h3>
+                            <p>Ders saatlerini tek tek elle atayarak program oluşturma</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Tam kontrol</li>
+                                <li><i class="fas fa-check"></i> Esnek düzenleme</li>
+                                <li><i class="fas fa-check"></i> Anlık kaydetme</li>
+                            </ul>
+                        </div>
+                        <div class="option-action">
+                            <button class="btn btn-primary" onclick="lessonManager.showManualCreateModal()">
+                                <i class="fas fa-pen"></i>
+                                Manuel Oluştur
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="schedule-option-card" data-option="import-template">
+                        <div class="option-icon import-template">
+                            <i class="fas fa-file-import"></i>
+                        </div>
+                        <div class="option-content">
+                            <h3>Şablon Program Al</h3>
+                            <p>Hazır şablonlardan program aktar veya önceki programları kullan</p>
+                            <ul class="feature-list">
+                                <li><i class="fas fa-check"></i> Hazır şablonlar</li>
+                                <li><i class="fas fa-check"></i> Geçmiş programlar</li>
+                                <li><i class="fas fa-check"></i> Hızlı kurulum</li>
+                            </ul>
+                        </div>
+                        <div class="option-action">
+                            <button class="btn btn-info" onclick="lessonManager.showImportTemplateModal()">
+                                <i class="fas fa-download"></i>
+                                Şablon Al
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Schedule Status -->
+                <div class="schedule-status-section">
+                    <div class="section-header">
+                        <h2>Mevcut Program Durumu</h2>
+                        <div class="status-actions">
+                            <button class="btn btn-secondary" onclick="lessonManager.detectConflicts()">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Çakışma Kontrolü
+                            </button>
+                            <button class="btn btn-warning" onclick="lessonManager.resetSchedule()">
+                                <i class="fas fa-undo"></i>
+                                Programı Sıfırla
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="schedule-status-grid">
+                        <div class="status-card">
+                            <div class="status-icon completion">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <div class="status-content">
+                                <span class="status-value" id="schedule-completion-rate">0%</span>
+                                <span class="status-label">Tamamlanma Oranı</span>
+                                <div class="status-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" id="completion-progress" style="width: 0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="status-card">
+                            <div class="status-icon conflicts">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="status-content">
+                                <span class="status-value" id="conflict-count">0</span>
+                                <span class="status-label">Çakışma Sayısı</span>
+                            </div>
+                        </div>
+
+                        <div class="status-card">
+                            <div class="status-icon assigned">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="status-content">
+                                <span class="status-value" id="assigned-slots">0</span>
+                                <span class="status-label">Atanmış Slot</span>
+                            </div>
+                        </div>
+
+                        <div class="status-card">
+                            <div class="status-icon empty">
+                                <i class="fas fa-calendar-times"></i>
+                            </div>
+                            <div class="status-content">
+                                <span class="status-value" id="empty-slots">0</span>
+                                <span class="status-label">Boş Slot</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Schedule View Section -->
+                <div class="schedule-view-section">
+                    <div class="schedule-controls">
+                        <div class="view-selector">
+                            <button class="btn btn-outline active" data-view="class">
+                                <i class="fas fa-school"></i>
+                                Sınıf Görünümü
+                            </button>
+                            <button class="btn btn-outline" data-view="teacher">
+                                <i class="fas fa-chalkboard-teacher"></i>
+                                Öğretmen Görünümü
+                            </button>
+                            <button class="btn btn-outline" data-view="overview">
+                                <i class="fas fa-th"></i>
+                                Genel Görünüm
+                            </button>
+                        </div>
+                        
+                        <div class="entity-selector">
+                            <div class="selector-group">
+                                <label>Seçim:</label>
+                                <select id="entity-select">
+                                    <option value="">Seçiniz...</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <label>Filtre:</label>
+                                <select id="schedule-filter">
+                                    <option value="all">Tümü</option>
+                                    <option value="assigned">Atanmış</option>
+                                    <option value="empty">Boş</option>
+                                    <option value="conflicts">Çakışmalı</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="schedule-display" id="schedule-display">
+                        <div class="schedule-grid" id="schedule-grid">
+                            <div class="schedule-placeholder">
+                                <div class="placeholder-icon">
+                                    <i class="fas fa-calendar-alt"></i>
+                                </div>
+                                <h3>Program Görüntüleyici</h3>
+                                <p>Bir sınıf veya öğretmen seçerek program tablosunu görüntüleyin</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions Panel -->
+                <div class="schedule-quick-actions">
+                    <h3>Hızlı İşlemler</h3>
+                    <div class="quick-actions-grid">
+                        <button class="quick-action-btn" onclick="lessonManager.fillEmptySlots()">
+                            <i class="fas fa-fill-drip"></i>
+                            <span>Boş Slotları Doldur</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="lessonManager.optimizeSchedule()">
+                            <i class="fas fa-cogs"></i>
+                            <span>Programı Optimize Et</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="lessonManager.copySchedule()">
+                            <i class="fas fa-copy"></i>
+                            <span>Program Kopyala</span>
+                        </button>
+                        <button class="quick-action-btn" onclick="lessonManager.exportSchedule()">
+                            <i class="fas fa-file-export"></i>
+                            <span>Program Dışa Aktar</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Reports Section -->
+            <section id="reports-section" class="content-section">
+                <div class="page-header">
+                    <h1>Raporlar</h1>
+                    <p>Detaylı istatistikler ve raporlar</p>
+                </div>
+                
+                <!-- Report Cards Grid -->
+                <div class="reports-grid">
+                    <div class="report-card" data-report="teacher-workload">
+                        <div class="report-icon teachers">
+                            <i class="fas fa-user-clock"></i>
+                        </div>
+                        <div class="report-content">
+                            <h3>Öğretmen Yük Dağılımı</h3>
+                            <p>Her öğretmenin ders saati dağılımı</p>
+                            <div class="report-stats">
+                                <span class="stat-number" id="avg-teacher-hours">0</span>
+                                <span class="stat-label">Ortalama Saat</span>
+                            </div>
+                        </div>
+                        <div class="report-action">
+                            <button class="btn btn-primary btn-sm" onclick="lessonManager.generateTeacherWorkloadReport()">
+                                <i class="fas fa-chart-bar"></i>
+                                Rapor Oluştur
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="report-card" data-report="class-statistics">
+                        <div class="report-icon classes">
+                            <i class="fas fa-school"></i>
+                        </div>
+                        <div class="report-content">
+                            <h3>Sınıf İstatistikleri</h3>
+                            <p>Sınıf başına ders dağılımı</p>
+                            <div class="report-stats">
+                                <span class="stat-number" id="avg-class-hours">0</span>
+                                <span class="stat-label">Ortalama Saat</span>
+                            </div>
+                        </div>
+                        <div class="report-action">
+                            <button class="btn btn-primary btn-sm" onclick="lessonManager.generateClassStatisticsReport()">
+                                <i class="fas fa-chart-pie"></i>
+                                Rapor Oluştur
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="report-card" data-report="elective-assignments">
+                        <div class="report-icon electives">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="report-content">
+                            <h3>Seçmeli Ders Atamaları</h3>
+                            <p>Seçmeli ders atama durumu ve istatistikleri</p>
+                            <div class="report-stats">
+                                <span class="stat-number" id="elective-completion-rate">0%</span>
+                                <span class="stat-label">Tamamlanma Oranı</span>
+                            </div>
+                        </div>
+                        <div class="report-action">
+                            <button class="btn btn-primary btn-sm" onclick="electiveReports.generateElectiveReport()">
+                                <i class="fas fa-file-alt"></i>
+                                Rapor Oluştur
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="report-card" data-report="lesson-distribution">
+                        <div class="report-icon lessons">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="report-content">
+                            <h3>Ders Dağılımı</h3>
+                            <p>Derslerin sınıflara göre dağılımı</p>
+                            <div class="report-stats">
+                                <span class="stat-number" id="total-lessons">0</span>
+                                <span class="stat-label">Toplam Ders</span>
+                            </div>
+                        </div>
+                        <div class="report-action">
+                            <button class="btn btn-primary btn-sm" onclick="lessonManager.generateLessonDistributionReport()">
+                                <i class="fas fa-chart-area"></i>
+                                Rapor Oluştur
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="report-card" data-report="schedule-overview">
+                        <div class="report-icon schedule">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div class="report-content">
+                            <h3>Program Özeti</h3>
+                            <p>Genel program durumu</p>
+                            <div class="report-stats">
+                                <span class="stat-number" id="schedule-completion">0%</span>
+                                <span class="stat-label">Tamamlanma</span>
+                            </div>
+                        </div>
+                        <div class="report-action">
+                            <button class="btn btn-primary btn-sm" onclick="lessonManager.generateScheduleOverviewReport()">
+                                <i class="fas fa-chart-line"></i>
+                                Rapor Oluştur
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="report-card" data-report="guidance-counselors">
+                        <div class="report-icon guidance">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="report-content">
+                            <h3>Rehber Öğretmen Durumu</h3>
+                            <p>Sınıfların rehber öğretmen atamaları</p>
+                            <div class="report-stats">
+                                <span class="stat-number" id="assigned-counselors">0</span>
+                                <span class="stat-label">Atanmış</span>
+                            </div>
+                        </div>
+                        <div class="report-action">
+                            <button class="btn btn-primary btn-sm" onclick="lessonManager.generateGuidanceCounselorReport()">
+                                <i class="fas fa-users"></i>
+                                Rapor Oluştur
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="report-card" data-report="export-data">
+                        <div class="report-icon export">
+                            <i class="fas fa-file-export"></i>
+                        </div>
+                        <div class="report-content">
+                            <h3>Veri Dışa Aktarma</h3>
+                            <p>Raporları Excel/PDF formatında kaydet</p>
+                            <div class="report-stats">
+                                <span class="stat-number">📊</span>
+                                <span class="stat-label">Export</span>
+                            </div>
+                        </div>
+                        <div class="report-action">
+                            <button class="btn btn-success btn-sm" onclick="lessonManager.showExportModal()">
+                                <i class="fas fa-download"></i>
+                                Dışa Aktar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Report Display Area -->
+                <div id="report-display-area" class="report-display hidden">
+                    <div class="report-header">
+                        <h2 id="report-title">Rapor</h2>
+                        <div class="report-actions">
+                            <button class="btn btn-secondary" onclick="lessonManager.printReport()">
+                                <i class="fas fa-print"></i>
+                                Yazdır
+                            </button>
+                            <button class="btn btn-secondary" onclick="lessonManager.closeReport()">
+                                <i class="fas fa-times"></i>
+                                Kapat
+                            </button>
+                        </div>
+                    </div>
+                    <div id="report-content" class="report-content-area">
+                        <!-- Report content will be generated here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Elective Tracker Section -->
+            <section id="elective-tracker-section" class="content-section">
+                <div class="page-header">
+                    <h1>Seçmeli Ders Atama Takibi</h1>
+                    <p>Sınıfların seçmeli ders atama durumunu takip edin ve eksik atamaları tamamlayın</p>
+                </div>
+
+                <!-- Elective Tracker Statistics -->
+                <div class="elective-tracker-stats">
+                    <div class="stat-card completion">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="completion-percentage">0%</span>
+                            <span class="stat-label">Tamamlanma Oranı</span>
+                            <div class="stat-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" id="completion-progress" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card missing">
+                        <div class="stat-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="missing-assignments">0</span>
+                            <span class="stat-label">Eksik Atama</span>
+                            <div class="stat-change negative">
+                                <i class="fas fa-arrow-down"></i>
+                                <span id="missing-change">0</span> Bu hafta
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card total-classes">
+                        <div class="stat-icon">
+                            <i class="fas fa-school"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="total-classes-tracker">0</span>
+                            <span class="stat-label">Toplam Sınıf</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card avg-electives">
+                        <div class="stat-icon">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <div class="stat-content">
+                            <span class="stat-value" id="avg-electives">0</span>
+                            <span class="stat-label">Ortalama Seçmeli</span>
+                            <div class="stat-subtext">Sınıf başına</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Elective Distribution Chart -->
+                <div class="elective-chart-section">
+                    <div class="chart-header">
+                        <h2>Seçmeli Ders Dağılımı</h2>
+                        <div class="chart-actions">
+                            <button class="btn btn-outline" onclick="electiveTracker.refreshChart()">
+                                <i class="fas fa-sync"></i>
+                                Yenile
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="elective-distribution-chart" width="400" height="200"></canvas>
+                    </div>
+                </div>
+
+                <!-- Elective Tracker Controls -->
+                <div class="elective-tracker-controls">
+                    <div class="control-group">
+                        <div class="search-and-filter">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="elective-search" placeholder="Sınıf ara...">
+                            </div>
+                            <div class="filter-controls">
+                                <select id="grade-filter-tracker">
+                                    <option value="">Tüm Seviyeler</option>
+                                    <option value="5">5. Sınıf</option>
+                                    <option value="6">6. Sınıf</option>
+                                    <option value="7">7. Sınıf</option>
+                                    <option value="8">8. Sınıf</option>
+                                </select>
+                                <select id="status-filter-tracker">
+                                    <option value="">Tüm Durumlar</option>
+                                    <option value="incomplete">Eksik Atama</option>
+                                    <option value="complete">Tamamlanmış</option>
+                                    <option value="over_assigned">Fazla Atama</option>
+                                </select>
+                                <button class="btn btn-outline" onclick="electiveTracker.clearFilters()">
+                                    <i class="fas fa-times"></i>
+                                    Filtreleri Temizle
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="action-controls">
+                            <button class="btn btn-secondary" onclick="electiveTracker.refreshData()">
+                                <i class="fas fa-sync"></i>
+                                Yenile
+                            </button>
+                            <button class="btn btn-info" onclick="electiveTracker.generateSuggestionsForAll()">
+                                <i class="fas fa-lightbulb"></i>
+                                Öneriler Oluştur
+                            </button>
+                            <button class="btn btn-primary" onclick="electiveTracker.showBulkAssignmentModal()">
+                                <i class="fas fa-plus-circle"></i>
+                                Toplu Atama
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Elective Status Table -->
+                <div class="elective-status-table-container">
+                    <div class="table-header">
+                        <h2>Sınıf Bazında Seçmeli Ders Durumu</h2>
+                        <div class="table-actions">
+                            <button class="btn btn-outline" onclick="electiveTracker.exportToExcel()">
+                                <i class="fas fa-file-excel"></i>
+                                Excel'e Aktar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-wrapper">
+                        <table class="elective-status-table" id="elective-status-table">
+                            <thead>
+                                <tr>
+                                    <th class="sortable" data-column="className">
+                                        <span>Sınıf</span>
+                                        <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th class="sortable" data-column="grade">
+                                        <span>Seviye</span>
+                                        <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th class="sortable" data-column="assignedElectives">
+                                        <span>Atanan Seçmeli</span>
+                                        <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th class="sortable" data-column="missingElectives">
+                                        <span>Eksik Seçmeli</span>
+                                        <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th class="sortable" data-column="status">
+                                        <span>Durum</span>
+                                        <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th class="sortable" data-column="lastUpdated">
+                                        <span>Son Güncelleme</span>
+                                        <i class="fas fa-sort"></i>
+                                    </th>
+                                    <th>İşlemler</th>
+                                </tr>
+                            </thead>
+                            <tbody id="elective-status-tbody">
+                                <!-- Dinamik içerik buraya gelecek -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-loading" id="elective-table-loading" style="display: none;">
+                        <div class="loading-spinner">
+                            <div class="spinner"></div>
+                            <p>Veriler yükleniyor...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="table-empty" id="elective-table-empty" style="display: none;">
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <h3>Veri Bulunamadı</h3>
+                            <p>Seçilen filtrelere uygun sınıf bulunamadı.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Assignment Panel (Hidden by default) -->
+                <div class="quick-assignment-panel" id="quick-assignment-panel" style="display: none;">
+                    <div class="panel-header">
+                        <h3>Hızlı Seçmeli Ders Ataması</h3>
+                        <button class="close-btn" onclick="electiveTracker.closeQuickAssignment()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="panel-content">
+                        <div class="class-info" id="quick-assignment-class-info">
+                            <!-- Sınıf bilgileri buraya gelecek -->
+                        </div>
+                        
+                        <div class="assignment-form">
+                            <div class="form-group">
+                                <label>Mevcut Seçmeli Dersler</label>
+                                <div class="elective-options" id="available-electives">
+                                    <!-- Seçmeli dersler buraya gelecek -->
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label>Uygun Öğretmenler</label>
+                                <select id="teacher-select-quick">
+                                    <option value="">Öğretmen Seçin</option>
+                                </select>
+                            </div>
+                            
+                            <div class="assignment-preview" id="assignment-preview">
+                                <!-- Atama önizlemesi buraya gelecek -->
+                            </div>
+                        </div>
+                        
+                        <div class="panel-actions">
+                            <button class="btn btn-secondary" onclick="electiveTracker.closeQuickAssignment()">
+                                İptal
+                            </button>
+                            <button class="btn btn-primary" onclick="electiveTracker.confirmQuickAssignment()">
+                                Ataması Yap
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Settings Section -->
+            <section id="settings-section" class="content-section">
+                <div class="page-header">
+                    <h1>Sistem Ayarları</h1>
+                    <p>Uygulamanın genel ayarlarını yönetin ve sistemi yapılandırın</p>
+                </div>
+                
+                <!-- Settings Overview Cards -->
+                <div class="settings-overview-grid">
+                    <div class="settings-overview-card">
+                        <div class="overview-icon school">
+                            <i class="fas fa-school"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Okul Yapılandırması</h3>
+                            <p>Okul türü, ders saatleri ve eğitim parametreleri</p>
+                        </div>
+                        <div class="overview-status" id="school-config-status">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Yapılandırıldı</span>
+                        </div>
+                    </div>
+
+                    <div class="settings-overview-card">
+                        <div class="overview-icon schedule">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Program Ayarları</h3>
+                            <p>Ders süreleri, ara zamanları ve haftalık plan</p>
+                        </div>
+                        <div class="overview-status" id="schedule-config-status">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Aktif</span>
+                        </div>
+                    </div>
+
+                    <div class="settings-overview-card">
+                        <div class="overview-icon database">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <div class="overview-content">
+                            <h3>Veritabanı Durumu</h3>
+                            <p>Sistem sağlığı ve veri bütünlüğü kontrolü</p>
+                        </div>
+                        <div class="overview-status" id="database-status">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Sağlıklı</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Sections -->
+                <div class="settings-sections">
+                    <!-- School Configuration Section -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <i class="fas fa-school"></i>
+                                <h2>Okul Yapılandırması</h2>
+                            </div>
+                            <div class="section-actions">
+                                <button class="btn btn-outline" onclick="settingsManager.resetToDefaults('school')">
+                                    <i class="fas fa-undo"></i>
+                                    Varsayılana Sıfırla
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <div class="setting-label">
+                                    <label for="school-type">Okul Türü</label>
+                                    <span class="setting-description">Eğitim seviyesini belirleyin</span>
+                                </div>
+                                <div class="setting-control">
+                                    <select id="school-type" class="modern-select">
+                                        <option value="Ortaokul">Ortaokul (5-8. Sınıflar)</option>
+                                        <option value="Genel Lise">Genel Lise (9-12. Sınıflar)</option>
+                                        <option value="Anadolu Lisesi">Anadolu Lisesi</option>
+                                        <option value="Fen Lisesi">Fen Lisesi</option>
+                                        <option value="Sosyal Bilimler Lisesi">Sosyal Bilimler Lisesi</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-label">
+                                    <label>Haftalık Ders Saati Limiti</label>
+                                    <span class="setting-description">Okul türüne göre otomatik belirlenir</span>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="setting-display">
+                                        <span class="display-value" id="weekly-hour-limit">35</span>
+                                        <span class="display-unit">saat/hafta</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-label">
+                                    <label>Günlük Ders Periyodu</label>
+                                    <span class="setting-description">Günde maksimum ders sayısı</span>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="setting-display">
+                                        <span class="display-value" id="daily-periods-display">7</span>
+                                        <span class="display-unit">ders/gün</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schedule Configuration Section -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <i class="fas fa-calendar-alt"></i>
+                                <h2>Program Ayarları</h2>
+                            </div>
+                            <div class="section-actions">
+                                <button class="btn btn-outline" onclick="settingsManager.previewSchedule()">
+                                    <i class="fas fa-eye"></i>
+                                    Önizle
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="settings-grid">
+                            <div class="setting-item">
+                                <div class="setting-label">
+                                    <label for="weekly-days">Haftalık Gün Sayısı</label>
+                                    <span class="setting-description">Eğitim günlerinin sayısı</span>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="input-with-slider">
+                                        <input type="range" id="weekly-days-slider" min="1" max="7" value="5" class="range-slider">
+                                        <input type="number" id="weekly-days" class="number-input" min="1" max="7" value="5">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-label">
+                                    <label for="period-duration">Ders Süresi</label>
+                                    <span class="setting-description">Her dersin süresi (dakika)</span>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="input-with-slider">
+                                        <input type="range" id="period-duration-slider" min="30" max="60" value="40" class="range-slider">
+                                        <input type="number" id="period-duration" class="number-input" min="30" max="60" value="40">
+                                        <span class="input-unit">dk</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="setting-item">
+                                <div class="setting-label">
+                                    <label for="break-duration">Teneffüs Süresi</label>
+                                    <span class="setting-description">Dersler arası mola süresi</span>
+                                </div>
+                                <div class="setting-control">
+                                    <div class="input-with-slider">
+                                        <input type="range" id="break-duration-slider" min="5" max="20" value="10" class="range-slider">
+                                        <input type="number" id="break-duration" class="number-input" min="5" max="20" value="10">
+                                        <span class="input-unit">dk</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Management Section -->
+                    <div class="settings-section">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <i class="fas fa-cogs"></i>
+                                <h2>Sistem Yönetimi</h2>
+                            </div>
+                            <div class="section-actions">
+                                <button class="btn btn-outline" onclick="settingsManager.showSystemInfo()">
+                                    <i class="fas fa-info-circle"></i>
+                                    Sistem Bilgisi
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="system-actions-grid">
+                            <div class="system-action-card" onclick="settingsManager.cleanupDatabase()">
+                                <div class="action-icon cleanup">
+                                    <i class="fas fa-broom"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h3>Veritabanı Temizleme</h3>
+                                    <p>Tekrar eden kayıtları ve gereksiz verileri temizle</p>
+                                    <div class="action-status">
+                                        <i class="fas fa-shield-alt"></i>
+                                        Güvenli İşlem
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="system-action-card" onclick="settingsManager.backupData()">
+                                <div class="action-icon backup">
+                                    <i class="fas fa-download"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h3>Veri Yedekleme</h3>
+                                    <p>Tüm sistem verilerinizi yedekleyin</p>
+                                    <div class="action-status">
+                                        <i class="fas fa-clock"></i>
+                                        Yakında
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="system-action-card" onclick="settingsManager.restoreData()">
+                                <div class="action-icon restore">
+                                    <i class="fas fa-upload"></i>
+                                </div>
+                                <div class="action-content">
+                                    <h3>Veri Geri Yükleme</h3>
+                                    <p>Yedeklenen verileri geri yükleyin</p>
+                                    <div class="action-status">
+                                        <i class="fas fa-clock"></i>
+                                        Yakında
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Actions -->
+                <div class="settings-footer">
+                    <div class="footer-actions">
+                        <button class="btn btn-secondary" onclick="settingsManager.resetAllSettings()">
+                            <i class="fas fa-undo-alt"></i>
+                            Tüm Ayarları Sıfırla
+                        </button>
+                        <button class="btn btn-primary" id="save-settings-btn">
+                            <i class="fas fa-save"></i>
+                            Ayarları Kaydet
+                        </button>
+                    </div>
+                    <div class="footer-info">
+                        <div class="last-saved">
+                            <i class="fas fa-clock"></i>
+                            <span>Son kaydedilme: <span id="last-saved-time">Henüz kaydedilmedi</span></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Modals will be created dynamically -->
+    <div id="modal-container">
+        <!-- Quick Assignment Modal -->
+        <div class="quick-assignment-modal" id="quick-assignment-modal">
+            <div class="modal-backdrop" onclick="closeQuickAssignmentModal()"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title">
+                        <i class="fas fa-bolt"></i>
+                        <h3>Hızlı Seçmeli Ders Ataması</h3>
+                    </div>
+                    <div class="class-info" id="selected-class-info">
+                        <span class="class-name" id="modal-class-name">Sınıf seçilmedi</span>
+                        <span class="class-details" id="modal-class-details"></span>
+                    </div>
+                    <button class="modal-close-btn" onclick="closeQuickAssignmentModal()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="assignment-form">
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h4><i class="fas fa-book"></i> Mevcut Seçmeli Dersler</h4>
+                                <span class="section-info" id="available-electives-count">0 ders mevcut</span>
+                            </div>
+                            <div class="available-electives">
+                                <div class="elective-grid" id="available-electives-grid">
+                                    <!-- Dinamik seçmeli ders listesi -->
+                                    <div class="no-electives" id="no-electives">
+                                        <i class="fas fa-info-circle"></i>
+                                        <p>Seçmeli ders bulunamadı</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h4><i class="fas fa-user-tie"></i> Uygun Öğretmenler</h4>
+                                <span class="section-info" id="available-teachers-count">Ders seçin</span>
+                            </div>
+                            <div class="teacher-selection">
+                                <select id="teacher-select" disabled>
+                                    <option value="">Önce seçmeli ders seçin</option>
+                                </select>
+                                <div class="teacher-info" id="selected-teacher-info" style="display: none;">
+                                    <div class="teacher-details">
+                                        <span class="teacher-name" id="teacher-name"></span>
+                                        <span class="teacher-workload" id="teacher-workload"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section">
+                            <div class="section-header">
+                                <h4><i class="fas fa-eye"></i> Atama Önizlemesi</h4>
+                                <div class="conflict-indicator" id="conflict-indicator" style="display: none;">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                    <span>Çakışma Tespit Edildi</span>
+                                </div>
+                            </div>
+                            <div class="assignment-preview">
+                                <div class="preview-content" id="assignment-preview">
+                                    <div class="preview-placeholder">
+                                        <i class="fas fa-info-circle"></i>
+                                        <p>Ders ve öğretmen seçimi yapın</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <div class="footer-info">
+                        <div class="assignment-summary" id="assignment-summary" style="display: none;">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Atama hazır</span>
+                        </div>
+                    </div>
+                    <div class="modal-actions">
+                        <button class="btn btn-secondary" onclick="closeQuickAssignmentModal()">
+                            <i class="fas fa-times"></i>
+                            İptal
+                        </button>
+                        <button class="btn btn-primary" id="confirm-assignment-btn" onclick="confirmAssignment()" disabled>
+                            <i class="fas fa-check"></i>
+                            Ataması Yap
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-spinner">
+            <div class="spinner"></div>
+            <p>Yükleniyor...</p>
+        </div>
+    </div>
+
+    <!-- Notification container -->
+    <div id="notification-container" class="notification-container"></div>
+
+    <script src="scripts/classLessonAssignment.js"></script>
+    <script src="scripts/main.js"></script>
+</body>
+</html>
