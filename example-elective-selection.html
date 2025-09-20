@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seçmeli Ders Atama Sistemi</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            margin: -20px -20px 20px -20px;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .grade-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        
+        .grade-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 5px;
+        }
+        
+        .elective-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 10px;
+        }
+        
+        .elective-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: white;
+        }
+        
+        .elective-item.available {
+            border-left: 4px solid #4caf50;
+        }
+        
+        .elective-item.assigned {
+            border-left: 4px solid #f44336;
+            background-color: #ffebee;
+        }
+        
+        .elective-name {
+            font-weight: 500;
+            flex-grow: 1;
+        }
+        
+        .elective-hours {
+            color: #666;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-available {
+            background-color: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .status-assigned {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .assignment-info {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .stats {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1976d2;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .example-note {
+            background: #fff3e0;
+            padding: 15px;
+            border-left: 4px solid #ff9800;
+            margin: 20px 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .example-note h3 {
+            margin: 0 0 10px 0;
+            color: #e65100;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Seçmeli Ders Kullanılabilirlik Sistemi</h1>
+            <p>Bir seçmeli ders bir sınıfa atandığında, aynı seviyedeki diğer sınıflara gözükmez</p>
+        </div>
+        
+        <div class="stats">
+            <h3>📊 Sistem İstatistikleri</h3>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">86</div>
+                    <div class="stat-label">Toplam Seçmeli Ders</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">68</div>
+                    <div class="stat-label">Müsait Seçmeli Ders</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">18</div>
+                    <div class="stat-label">Atanmış Seçmeli Ders</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">%79</div>
+                    <div class="stat-label">Müsait Ders Oranı</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 5. Sınıf -->
+        <div class="grade-section">
+            <div class="grade-title">5. Sınıf Seçmeli Dersleri</div>
+            <div class="elective-list">
+                <div class="elective-item available">
+                    <div>
+                        <div class="elective-name">Bilim Uygulamaları</div>
+                        <div class="elective-hours">2 saat/hafta</div>
+                    </div>
+                    <span class="status-badge status-available">Müsait</span>
+                </div>
+                
+                <div class="elective-item available">
+                    <div>
+                        <div class="elective-name">Proje Tasarım ve Yönetimi</div>
+                        <div class="elective-hours">2 saat/hafta</div>
+                    </div>
+                    <span class="status-badge status-available">Müsait</span>
+                </div>
+                
+                <div class="elective-item assigned">
+                    <div>
+                        <div class="elective-name">Zeka Oyunları</div>
+                        <div class="elective-hours">2 saat/hafta</div>
+                        <div class="assignment-info">Jale öğretmen - A, B şubesi</div>
+                    </div>
+                    <span class="status-badge status-assigned">Atanmış</span>
+                </div>
+                
+                <div class="elective-item available">
+                    <div>
+                        <div class="elective-name">Yaratici Drama</div>
+                        <div class="elective-hours">2 saat/hafta</div>
+                    </div>
+                    <span class="status-badge status-available">Müsait</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 7. Sınıf -->
+        <div class="grade-section">
+            <div class="grade-title">7. Sınıf Seçmeli Dersleri</div>
+            <div class="elective-list">
+                <div class="elective-item available">
+                    <div>
+                        <div class="elective-name">Matematik Uygulamaları</div>
+                        <div class="elective-hours">2 saat/hafta</div>
+                    </div>
+                    <span class="status-badge status-available">Müsait</span>
+                </div>
+                
+                <div class="elective-item available">
+                    <div>
+                        <div class="elective-name">Fen Uygulamaları</div>
+                        <div class="elective-hours">2 saat/hafta</div>
+                    </div>
+                    <span class="status-badge status-available">Müsait</span>
+                </div>
+                
+                <div class="elective-item assigned">
+                    <div>
+                        <div class="elective-name">Bilişim Teknolojileri</div>
+                        <div class="elective-hours">2 saat/hafta</div>
+                        <div class="assignment-info">Halil öğretmen - A, B şubesi</div>
+                    </div>
+                    <span class="status-badge status-assigned">Atanmış</span>
+                </div>
+                
+                <div class="elective-item assigned">
+                    <div>
+                        <div class="elective-name">Zeka Oyunları</div>
+                        <div class="elective-hours">2 saat/hafta</div>
+                        <div class="assignment-info">Jale öğretmen - A, B şubesi</div>
+                    </div>
+                    <span class="status-badge status-assigned">Atanmış</span>
+                </div>
+                
+                <div class="elective-item available">
+                    <div>
+                        <div class="elective-name">Robotik ve Kodlama</div>
+                        <div class="elective-hours">2 saat/hafta</div>
+                    </div>
+                    <span class="status-badge status-available">Müsait</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="example-note">
+            <h3>💡 Sistem Nasıl Çalışır?</h3>
+            <ul>
+                <li><strong>Müsait Seçmeli Dersler:</strong> Henüz hiç sınıfa atanmamış, seçilebilir durumda olan dersler</li>
+                <li><strong>Atanmış Seçmeli Dersler:</strong> Bir öğretmen tarafından bir veya birden fazla sınıfa atanmış dersler</li>
+                <li><strong>Çakışma Önleme:</strong> Bir ders atandığında, aynı seviyedeki diğer öğretmenlerin listesinden otomatik olarak kaldırılır</li>
+                <li><strong>Kaynak Yönetimi:</strong> Sınırlı öğretmen kaynakları optimum şekilde kullanılır</li>
+                <li><strong>Gerçek Zamanlı Güncelleme:</strong> Atamalar anında sisteme yansır</li>
+            </ul>
+        </div>
+        
+        <div class="example-note">
+            <h3>🔧 Backend API Fonksiyonları</h3>
+            <p>Aşağıdaki API çağrıları frontend'de kullanılabilir:</p>
+            <pre style="background: #f5f5f5; padding: 10px; border-radius: 5px; font-family: 'Courier New', monospace; font-size: 12px;">
+// Müsait seçmeli dersleri getir
+window.electronAPI.lesson.getAvailableElectives(grade)
+
+// Atanmış seçmeli dersleri getir
+window.electronAPI.lesson.getAssignedElectives(grade)
+
+// Bir seçmeli dersin müsait olup olmadığını kontrol et
+window.electronAPI.lesson.isElectiveAvailable(lessonId, grade)
+
+// Belirli bir sınıf için müsait seçmeli dersleri getir
+window.electronAPI.lesson.getAvailableElectivesForClass(classId)
+
+// Seçmeli dersleri durumlarıyla birlikte getir
+window.electronAPI.lesson.getElectivesWithStatus(grade)
+            </pre>
+        </div>
+    </div>
+</body>
+</html>

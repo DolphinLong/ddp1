@@ -1,0 +1,270 @@
+{
+  "ortaokul": {
+    "zorunlu_dersler": [
+      {
+        "ders": "Türkçe",
+        "saat": 6
+      },
+      {
+        "ders": "Matematik",
+        "saat": 5
+      },
+      {
+        "ders": "Fen Bilimleri",
+        "saat": 4
+      },
+      {
+        "ders": "Sosyal Bilgiler",
+        "saat": 3
+      },
+      {
+        "ders": "T.C. İnkılap Tarihi ve Atatürkçülük",
+        "saat": 2
+      },
+      {
+        "ders": "Din Kültürü ve Ahlak Bilgisi",
+        "saat": 2
+      },
+      {
+        "ders": "Yabancı Dil",
+        "saat": 3
+      },
+      {
+        "ders": "Görsel Sanatlar",
+        "saat": 1
+      },
+      {
+        "ders": "Müzik",
+        "saat": 1
+      },
+      {
+        "ders": "Beden Eğitimi ve Spor",
+        "saat": 2
+      },
+      {
+        "ders": "Teknoloji ve Tasarım",
+        "saat": 2
+      },
+      {
+        "ders": "Bilişim Teknolojileri ve Yazılım",
+        "saat": 2
+      },
+      {
+        "ders": "Rehberlik ve Yönlendirme",
+        "saat": 1
+      }
+    ],
+    "secmeli_dersler": {
+      "insan_toplum_bilim": [
+        {
+          "ders": "Matematik ve Bilim Uygulamaları",
+          "saat": [
+            2
+          ]
+        },
+        {
+          "ders": "Okuma Becerileri",
+          "saat": [
+            2
+          ]
+        },
+        {
+          "ders": "Yazarlık ve Yazma Becerileri",
+          "saat": [
+            1,
+            2
+          ]
+        },
+        {
+          "ders": "Yaşayan Diller ve Lehçeler",
+          "saat": [
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "ders": "Çevre Eğitimi ve İklim Değişikliği",
+          "saat": [
+            1,
+            2
+          ]
+        },
+        {
+          "ders": "Şehrimiz ...",
+          "saat": [
+            1,
+            2
+          ]
+        },
+        {
+          "ders": "Hukuk ve Adalet",
+          "saat": [
+            1,
+            2
+          ]
+        },
+        {
+          "ders": "Düşünme Eğitimi",
+          "saat": [
+            1,
+            2
+          ]
+        },
+        {
+          "ders": "Robotik Kodlama",
+          "saat": [
+            2
+          ]
+        },
+        {
+          "ders": "Yapay Zeka Uygulamaları",
+          "saat": [
+            2
+          ]
+        },
+        {
+          "ders": "Proje Tasarımı ve Uygulamaları",
+          "saat": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "ders": "Okul Temelli Sosyal Sorumluluk Çalışmaları",
+          "saat": [
+            2,
+            3
+          ]
+        },
+        {
+          "ders": "Medya Okuryazarlığı",
+          "saat": [
+            1,
+            2
+          ]
+        },
+        {
+          "ders": "Afet Bilinci",
+          "saat": [
+            1,
+            2
+          ]
+        },
+        {
+          "ders": "Temel Yaşam Becerileri",
+          "saat": [
+            1,
+            2
+          ]
+        }
+      ],
+      "din_ahlak_deger": [
+        {
+          "ders": "Türk Sosyal Hayatında Aile",
+          "saat": [
+            1,
+            2
+          ]
+        },
+        {
+          "ders": "Kur'an-ı Kerim",
+          "saat": [
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "ders": "Peygamberimizin Hayatı",
+          "saat": [
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "ders": "Temel Dinî Bilgiler",
+          "saat": [
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "ders": "Kültür ve Medeniyetimize Yön Verenler",
+          "saat": [
+            2,
+            2
+          ]
+        },
+        {
+          "ders": "Ahlak ve Vatandaşlık Eğitimi",
+          "saat": [
+            1,
+            2
+          ]
+        },
+        {
+          "ders": "Görgü Kuralları ve Nezaket",
+          "saat": [
+            2
+          ]
+        }
+      ],
+      "kultur_sanat_spor": [
+        {
+          "ders": "Spor ve Fizikî Etkinlikler",
+          "saat": [
+            2,
+            2,
+            2,
+            2
+          ]
+        },
+        {
+          "ders": "Oyun ve Oyun Etkinlikleri",
+          "saat": [
+            1,
+            2
+          ]
+        },
+        {
+          "ders": "Dijital Sanatlar",
+          "saat": [
+            1,
+            2
+          ]
+        },
+        {
+          "ders": "Masal ve Destanlarımız",
+          "saat": [
+            1,
+            2
+          ]
+        },
+        {
+          "ders": "Geleneksel Sanatlar",
+          "saat": [
+            1,
+            2
+          ]
+        },
+        {
+          "ders": "Halk Oyunları",
+          "saat": [
+            2,
+            2,
+            2,
+            2
+          ]
+        }
+      ]
+    }
+  }
+}

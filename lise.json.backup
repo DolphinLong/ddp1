@@ -1,0 +1,66 @@
+{
+  "lise": {
+    "zorunlu_dersler": [
+      { "ders": "Türk Dili ve Edebiyatı", "saat": 5 },
+      { "ders": "Yabancı Dil", "saat": 4 },
+      { "ders": "Din Kültürü ve Ahlak Bilgisi", "saat": 2 },
+      { "ders": "Tarih", "saat": 2 },
+      { "ders": "Coğrafya", "saat": 2 },
+      { "ders": "Matematik", "saat": 4 },
+      { "ders": "Fizik", "saat": 2 },
+      { "ders": "Kimya", "saat": 2 },
+      { "ders": "Biyoloji", "saat": 2 },
+      { "ders": "Felsefe", "saat": 2 },
+      { "ders": "Türk İnkılap Tarihi ve Atatürkçülük", "saat": 2 },
+      { "ders": "Beden Eğitimi ve Spor", "saat": 2 },
+      { "ders": "Görsel Sanatlar / Müzik", "saat": 1 },
+      { "ders": "Rehberlik ve Yönlendirme", "saat": 1 }
+    ],
+    "alan_dersleri": {
+      "sayisal": [
+        { "ders": "İleri Matematik", "saat": [4, 6] },
+        { "ders": "Fizik", "saat": [3, 4] },
+        { "ders": "Kimya", "saat": [2, 3] },
+        { "ders": "Biyoloji", "saat": [2, 3] }
+      ],
+      "esit_agirlik": [
+        { "ders": "Matematik", "saat": [3, 4] },
+        { "ders": "Türk Dili ve Edebiyatı", "saat": [4, 5] },
+        { "ders": "Coğrafya", "saat": [2, 3] },
+        { "ders": "Tarih", "saat": [2, 3] }
+      ],
+      "sozel": [
+        { "ders": "Tarih", "saat": [3, 4] },
+        { "ders": "Coğrafya", "saat": [3, 4] },
+        { "ders": "Felsefe", "saat": [2, 3] },
+        { "ders": "Psikoloji", "saat": 2 },
+        { "ders": "Sosyoloji", "saat": 2 },
+        { "ders": "Mantık", "saat": 2 }
+      ],
+      "yabanci_dil": [
+        { "ders": "İleri Yabancı Dil", "saat": [4, 6] },
+        { "ders": "İkinci Yabancı Dil", "saat": [2, 4] },
+        { "ders": "Dil ve Anlatım", "saat": 2 },
+        { "ders": "Çeviri ve Konuşma Uygulamaları", "saat": [2, 3] }
+      ]
+    },
+    "secmeli_dersler": [
+      { "ders": "Seçmeli Matematik", "saat": [2, 4] },
+      { "ders": "Seçmeli Fizik", "saat": [2, 3] },
+      { "ders": "Seçmeli Kimya", "saat": [2, 3] },
+      { "ders": "Seçmeli Biyoloji", "saat": [2, 3] },
+      { "ders": "Astronomi ve Uzay Bilimleri", "saat": 2 },
+      { "ders": "Osmanlı Türkçesi", "saat": [2, 3] },
+      { "ders": "Seçmeli Türk Dili ve Edebiyatı", "saat": [2, 3] },
+      { "ders": "Psikoloji", "saat": 2 },
+      { "ders": "Sosyoloji", "saat": 2 },
+      { "ders": "Mantık", "saat": 2 },
+      { "ders": "İşletme", "saat": 2 },
+      { "ders": "Ekonomi", "saat": 2 },
+      { "ders": "Girişimcilik", "saat": 2 },
+      { "ders": "Yönetim Bilimi", "saat": 2 },
+      { "ders": "Uluslararası İlişkiler", "saat": 2 },
+      { "ders": "Sağlık Bilgisi ve Trafik Kültürü", "saat": 2 }
+    ]
+  }
+}
