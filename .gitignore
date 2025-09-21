@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+build/
+dist/
+out/
+release/
+
+# Coverage
+coverage/
+tests/coverage/
+
+# Caches
+.cache/
+.nyc_output/
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Env files
+.env
+.env.*.local
